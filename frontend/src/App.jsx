@@ -1,5 +1,5 @@
 import React from "react";
-import ChessBoard from "./components/chessBoard";
+import ChessBoard from "./components/ChessBoard";
 const App = () => {
   return (
     <div className="App">
