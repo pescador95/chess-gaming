@@ -1,0 +1,16 @@
+.square {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+}
+
+.black {
+    background-color: #769656;
+}
+
+.white {
+    background-color: #EEEED2;
+}

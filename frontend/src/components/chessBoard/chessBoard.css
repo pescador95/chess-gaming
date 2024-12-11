@@ -1,0 +1,38 @@
+.chess-board-container {
+    display: inline-block;
+    border: 2px solid #333;
+    padding: 5px;
+    background-color: #fff;
+    position: relative;
+    margin: 0 auto;
+}
+
+.board-row {
+    display: flex;
+}
+
+.row-label {
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.column-labels {
+    display: flex;
+    justify-content: center;
+}
+
+.column-label {
+    width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.corner {
+    width: 30px;
+    height: 30px;
+}
