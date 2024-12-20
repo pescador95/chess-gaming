@@ -1,38 +1,35 @@
 package com.pescador95.application.DTO.ChessDTO;
 
-import com.pescador95.chess.ChessMatch;
-import com.pescador95.chess.Color;
-
 public class ChessDTO {
 
-    private char sourceRow;
-    private char targetRow;
-    private int sourceColumn;
-    private int targetColumn;
+    private int sourceRow;
+    private char sourceColumn;
+    private int targetRow;
+    private char targetColumn;
 
     public ChessDTO() {
     }
 
-    public ChessDTO(char sourceRow, int sourceColumn, char targetRow, int targetColumn) {
+    public ChessDTO(int sourceRow, char sourceColumn, int targetRow, char targetColumn) {
         this.sourceRow = sourceRow;
         this.sourceColumn = sourceColumn;
         this.targetColumn = targetColumn;
         this.targetRow = targetRow;
     }
 
-    public char getSourceRow() {
-        return Character.toLowerCase(sourceRow);
+    public int getSourceRow() {
+        return sourceRow;
     }
 
-    public char getTargetRow() {
-        return Character.toLowerCase(targetRow);
+    public int getTargetRow() {
+        return targetRow;
     }
 
-    public int getSourceColumn() {
-        return sourceColumn;
+    public char getSourceColumn() {
+        return Character.toLowerCase(sourceColumn);
     }
 
-    public int getTargetColumn() {
-        return targetColumn;
+    public char getTargetColumn() {
+        return Character.toLowerCase(targetColumn);
     }
 }

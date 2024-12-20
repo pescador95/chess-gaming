@@ -15,9 +15,9 @@ import static com.pescador95.chess.pieces.Pawn.ENPASSANT_WHITE;
 
 public class ChessMatch {
 
+    public static final Set<String> PROMOTE_PIECES = new HashSet<>();
     private static final int ROWS = 8;
     private static final int COLUMNS = 8;
-    public static final Set<String> PROMOTE_PIECES = new HashSet<>();
 
     static {
         PROMOTE_PIECES.add(new Bishop(null, null).toString());
@@ -26,17 +26,16 @@ public class ChessMatch {
         PROMOTE_PIECES.add(new Queen(null, null).toString());
     }
 
+    private final Board board;
+    private final List<Piece> piecesOnTheBoard = new ArrayList<>();
+    private final List<Piece> capturedPieces = new ArrayList<>();
+    private final String gameId;
     private int turn;
     private Color currentPlayer;
-    private final Board board;
     private boolean check;
     private boolean checkMate;
     private ChessPiece enPassantVulnerable;
     private ChessPiece promoted;
-    private String gameId;
-
-    private final List<Piece> piecesOnTheBoard = new ArrayList<>();
-    private final List<Piece> capturedPieces = new ArrayList<>();
 
     public ChessMatch() {
 

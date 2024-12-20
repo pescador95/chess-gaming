@@ -10,7 +10,7 @@ export const initializeWebSocket = (
   const socket = new SockJS("http://localhost:8080/ws");
   const client = new Client({
     webSocketFactory: () => socket,
-    // debug: (str) => console.log(str),
+     debug: (str) => console.log(str),
     onConnect: () => {
       setStatus("CONECTADO");
       client.subscribe("/topic/board", (message) => {

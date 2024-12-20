@@ -1,17 +1,17 @@
 package com.pescador95.application.BasicUI;
 
 import com.pescador95.application.UI;
+import com.pescador95.application.services.ChessService;
 import com.pescador95.chess.ChessException;
 import com.pescador95.chess.ChessPosition;
-import com.pescador95.application.services.ChessService;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ChessTerminalUI {
 
-    private Scanner sc = new Scanner(System.in);
-    private ChessService chessService = new ChessService();
+    private final Scanner sc = new Scanner(System.in);
+    private final ChessService chessService = new ChessService();
 
     public void runGame() {
         while (!chessService.isCheckMate()) {

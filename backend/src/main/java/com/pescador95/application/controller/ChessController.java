@@ -1,69 +1,59 @@
 package com.pescador95.application.controller;
 
 import com.pescador95.application.DTO.ChessDTO.ChessDTO;
+import com.pescador95.application.services.ChessService;
 import com.pescador95.chess.ChessException;
 import com.pescador95.chess.ChessMatch;
-import com.pescador95.chess.ChessPiece;
 import com.pescador95.chess.ChessPosition;
-import com.pescador95.application.services.ChessService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@RestController
-@RequestMapping("/api/chess")
+@Controller
 public class ChessController {
 
-    private ChessService chessService = new ChessService();
+    private final ChessService chessService = new ChessService();
 
-    @PostMapping("/new")
-    public ResponseEntity<?> createNewGame() {
-        ChessMatch chessMatch = chessService.createGame();
-        return ResponseEntity.ok(chessMatch);
+    public ChessMatch createNewGame() {
+        return chessService.createGame();
     }
 
-    @GetMapping("/stat/{gameId}")
-    public ResponseEntity<?> getGameStat(@PathVariable String gameId) {
-        ChessMatch chessMatch = chessService.getGame(gameId);
-        if (chessMatch == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Game not found");
-        }
-        return ResponseEntity.ok(chessMatch);
+    public ChessMatch getGameStat(@PathVariable String gameId) {
+        return chessService.getGame(gameId);
     }
 
-    @DeleteMapping("/stat/{gameId}")
-    public ResponseEntity<?> endGame(@PathVariable String gameId) {
+    public String endGame(@PathVariable String gameId) {
         chessService.removeGame(gameId);
-        return ResponseEntity.ok("Game ended");
+        return "Game ended";
     }
 
-    @PostMapping("/possibleMoves")
-    public ResponseEntity<?> possibleMoves(@RequestBody ChessDTO request) {
-        boolean[][] possiblesMoves = chessService.getPossibleMoves(new ChessPosition(request.getSourceRow(), request.getSourceColumn()));
-        return ResponseEntity.ok(possiblesMoves);
+    public boolean[][] possibleMoves(@RequestBody ChessDTO request) {
+        return chessService.getPossibleMoves(new ChessPosition(request.getSourceColumn(), request.getSourceRow()));
     }
 
-    @PostMapping("/move")
-    public ResponseEntity<?> movePiece(@RequestBody ChessDTO request) {
+    public ChessMatch movePiece(@RequestBody ChessDTO request) {
+        ChessMatch returnMatch = new ChessMatch();
         try {
-            ChessPosition source = new ChessPosition(request.getSourceRow(), request.getSourceColumn());
-            ChessPosition target = new ChessPosition(request.getTargetRow(), request.getTargetColumn());
-            ChessPiece capturedPiece = chessService.movePiece(source, target);
+            ChessPosition source = new ChessPosition(request.getSourceColumn(), request.getSourceRow());
+            ChessPosition target = new ChessPosition(request.getTargetColumn(), request.getTargetRow());
+            chessService.movePiece(source, target);
             ChessMatch match = chessService.getChessMatch();
             chessService.getGames().put(match.getGameId(), match);
-            return ResponseEntity.ok(match);
+            returnMatch = match;
         } catch (ChessException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            e.getMessage();
+        } finally {
+            return returnMatch;
         }
     }
 
-    @PostMapping("/promote")
-    public ResponseEntity<?> promotePiece(@RequestParam String type) {
+    public String promotePiece(@RequestParam String type) {
         try {
             chessService.promotePiece(type);
-            return ResponseEntity.ok("Piece promoted to: " + type);
+            return "Piece promoted to: " + type;
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body("Invalid promotion type");
+            return "Invalid promotion type";
         }
     }
 }

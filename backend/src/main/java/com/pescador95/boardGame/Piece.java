@@ -2,8 +2,8 @@ package com.pescador95.boardGame;
 
 public abstract class Piece {
 
-    protected Position position;
     private final Board board;
+    protected Position position;
 
     public Piece(Board board) {
         this.board = board;

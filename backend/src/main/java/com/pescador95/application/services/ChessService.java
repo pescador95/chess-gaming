@@ -6,18 +6,23 @@ import com.pescador95.chess.ChessPiece;
 import com.pescador95.chess.ChessPosition;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class ChessService {
 
-    private ChessMatch chessMatch;
-    private List<ChessPiece> captured;
     private final Map<String, ChessMatch> games = new HashMap<>();
+    private final ChessMatch chessMatch;
+    private final List<ChessPiece> captured;
+
     public ChessService() {
         chessMatch = new ChessMatch();
         captured = new ArrayList<>();
     }
+
     public ChessMatch createGame() {
         ChessMatch chessMatch = new ChessMatch();
         games.put(chessMatch.getGameId(), chessMatch);
