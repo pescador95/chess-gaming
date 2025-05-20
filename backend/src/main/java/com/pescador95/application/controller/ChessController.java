@@ -33,18 +33,18 @@ public class ChessController {
     }
 
     public ChessMatch movePiece(@RequestBody ChessDTO request) {
-        ChessMatch returnMatch = new ChessMatch();
+        ChessMatch match = chessService.getChessMatch();
         try {
             ChessPosition source = new ChessPosition(request.getSourceColumn(), request.getSourceRow());
             ChessPosition target = new ChessPosition(request.getTargetColumn(), request.getTargetRow());
             chessService.movePiece(source, target);
-            ChessMatch match = chessService.getChessMatch();
+
             chessService.getGames().put(match.getGameId(), match);
-            returnMatch = match;
+
         } catch (ChessException e) {
             e.getMessage();
         } finally {
-            return returnMatch;
+            return match;
         }
     }
 

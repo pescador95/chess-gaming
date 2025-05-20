@@ -5,16 +5,20 @@ export const initializeWebSocket = (
   setBoard,
   setTurn,
   setStatus,
-  setPossibleMoves
+  setPossibleMoves,
+  setGameId,
+  setCheck,
+  setCheckMate
 ) => {
   const socket = new SockJS("http://localhost:8080/ws");
   const client = new Client({
     webSocketFactory: () => socket,
      debug: (str) => console.log(str),
     onConnect: () => {
-      setStatus("CONECTADO");
+      setStatus("CONNECTED");
       client.subscribe("/topic/board", (message) => {
         const data = JSON.parse(message.body);
+        console.log(data)
         if (Array.isArray(data.pieces)) {
           setBoard(
             data.pieces.map((row, rowIndex) =>
@@ -31,6 +35,11 @@ export const initializeWebSocket = (
             )
           );
           setTurn(data.currentPlayer);
+          setGameId(data.gameId);
+          console.log(" check: " + data.check)
+          setCheck(data.check);
+           console.log(" check mate: " + data.checkMate)
+          setCheckMate(data.checkMate);
         }
       });
 
@@ -42,8 +51,8 @@ export const initializeWebSocket = (
 
       client.publish({ destination: "/app/init" });
     },
-    onWebSocketClose: () => setStatus("CONEXÃO PERDIDA"),
-    onWebSocketError: (error) => setStatus("ERRO NO WEBSOCKET"),
+    onWebSocketClose: () => setStatus("CONNECTION LOST"),
+    onWebSocketError: (error) => setStatus("ERROR ON WEBSOCKET"),
   });
   client.activate();
   return client;
@@ -62,7 +71,7 @@ export const handleMove = (source, target, stompClient, setStatus) => {
       body: JSON.stringify(moveData),
     });
   } else {
-    setStatus("Não está conectado ao servidor.");
+    setStatus("Not connected at server.");
   }
 };
 
@@ -84,6 +93,6 @@ export const handlePieceSelection = (
     });
     setSelectedPiece(piece);
   } else {
-    setStatus("Não está conectado ao servidor.");
+    setStatus("Not connected at server.");
   }
 };

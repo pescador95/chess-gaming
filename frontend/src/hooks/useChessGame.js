@@ -16,6 +16,9 @@ export const useChessGame = () => {
   const [selectedPiece, setSelectedPiece] = useState(null);
   const [status, setStatus] = useState("AGUARDANDO SERVIDOR");
   const [stompClient, setStompClient] = useState(null);
+  const [gameId, setGameId] = useState(null);
+  const [check, setCheck] = useState(false);
+   const [checkMate, setCheckMate] = useState(false);
 
   const columnsLabels = ["A", "B", "C", "D", "E", "F", "G", "H"];
 
@@ -24,7 +27,10 @@ export const useChessGame = () => {
       setBoard,
       setTurn,
       setStatus,
-      setPossibleMoves
+      setPossibleMoves,
+      setGameId,
+      setCheck,
+      setCheckMate
     );
     setStompClient(client);
 
@@ -36,6 +42,9 @@ export const useChessGame = () => {
   return {
     board,
     turn,
+    gameId,
+    check,
+    checkMate,
     status,
     possibleMoves,
     selectedPiece,

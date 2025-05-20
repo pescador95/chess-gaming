@@ -10,6 +10,9 @@ const ChessBoard = () => {
     board,
     turn,
     status,
+    gameId,
+    check,
+    checkMate,
     possibleMoves,
     selectedPiece,
     handleMove,
@@ -36,7 +39,13 @@ const ChessBoard = () => {
         <div>Error: Board data is not an array</div>
       )}
       <ColumnLabels labels={columnsLabels} />
-      <GameInfo turn={turn} status={status} />
+      <GameInfo
+       turn={turn}
+       status={status}
+       gameId={gameId}
+       check={check}
+       checkMate={checkMate}
+       />
     </div>
   );
 };
